@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Basic Auth Assistant</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">CHROME EXTENSION</p>
+          <h1>Basic Auth Assistant</h1>
+          <p class="lead">URLに一致するBasic認証へ自動で応答します。</p>
+        </div>
+        <button id="add-rule" class="primary" type="button">ルールを追加</button>
+      </header>
+
+      <section class="search-bar" aria-label="ルール検索">
+        <label class="search-label" for="rule-search">ルールを検索</label>
+        <div class="search-field">
+          <span class="search-icon" aria-hidden="true"></span>
+          <input
+            id="rule-search"
+            type="search"
+            placeholder="ルール名・URL・IDで検索"
+            autocomplete="off"
+          />
+          <span id="result-count" class="result-count" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <section id="empty-state" class="empty" hidden>
+        <p>ルールはまだありません。</p>
+        <button id="add-first-rule" type="button">最初のルールを作成</button>
+      </section>
+
+      <section id="no-results" class="empty" hidden>
+        <p>一致するルールがありません。</p>
+        <button id="clear-search" type="button">検索をクリア</button>
+      </section>
+
+      <section id="rule-list" class="rule-list" aria-label="認証ルール"></section>
+
+      <p class="security-note">
+        認証情報はこのChromeプロファイルの拡張機能用ローカルストレージに保存され、同期されません。
+      </p>
+    </main>
+
+    <template id="rule-template">
+      <article class="rule-card">
+        <div class="rule-summary">
+          <button class="expand" type="button" aria-expanded="false">
+            <span class="chevron" aria-hidden="true"></span>
+            <span class="summary-copy">
+              <span class="summary-name"></span>
+              <span class="summary-pattern code"></span>
+            </span>
+          </button>
+          <label class="switch-label">
+            <input class="enabled" type="checkbox" />
+            <span>有効</span>
+          </label>
+          <button class="delete danger" type="button">削除</button>
+        </div>
+
+        <div class="rule-body" hidden>
+          <label>
+            <span>ルール名</span>
+            <input class="name" type="text" placeholder="例: example.com" autocomplete="off" />
+          </label>
+
+          <label>
+            <span>URL正規表現</span>
+            <input class="pattern code" type="text" placeholder="^https://example\\.com(?:/|$)" spellcheck="false" autocomplete="off" />
+          </label>
+          <p class="pattern-error error" role="alert"></p>
+
+          <section class="regex-hints" aria-label="URL正規表現のサンプル">
+            <div class="hint-heading">
+              <span>書き方のヒント</span>
+              <span>クリックしてコピー</span>
+            </div>
+            <p class="hint-note">
+              <code>example.com</code> や <code>d123example</code> は実際の値に置き換えてください。
+            </p>
+            <div class="regex-chipset">
+              <div class="regex-chip">
+                <span class="chip-copy">
+                  <span class="chip-label">特定のドメイン</span>
+                  <code>^https://example\.com(?:/|$)</code>
+                </span>
+                <button
+                  class="copy-regex"
+                  type="button"
+                  data-regex="^https://example\.com(?:/|$)"
+                  aria-label="特定のドメインに一致する正規表現をコピー"
+                >コピー</button>
+              </div>
+              <div class="regex-chip">
+                <span class="chip-copy">
+                  <span class="chip-label">任意のサブドメイン</span>
+                  <code>^https://[^/]+\.example\.com(?:/|$)</code>
+                </span>
+                <button
+                  class="copy-regex"
+                  type="button"
+                  data-regex="^https://[^/]+\.example\.com(?:/|$)"
+                  aria-label="任意のサブドメインに一致する正規表現をコピー"
+                >コピー</button>
+              </div>
+              <div class="regex-chip">
+                <span class="chip-copy">
+                  <span class="chip-label">特定のAmplify App</span>
+                  <code>^https://[^.]+\.d123example\.amplifyapp\.com(?:/|$)</code>
+                </span>
+                <button
+                  class="copy-regex"
+                  type="button"
+                  data-regex="^https://[^.]+\.d123example\.amplifyapp\.com(?:/|$)"
+                  aria-label="特定のAmplify Appに一致する正規表現をコピー"
+                >コピー</button>
+              </div>
+            </div>
+          </section>
+
+          <div class="credentials">
+            <label>
+              <span>ID</span>
+              <input class="username" type="text" autocomplete="username" />
+            </label>
+            <label>
+              <span>パスワード</span>
+              <span class="password-field">
+                <input class="password" type="password" autocomplete="current-password" />
+                <button class="toggle-password" type="button" aria-label="パスワードを表示">表示</button>
+              </span>
+            </label>
+          </div>
+        </div>
+      </article>
+    </template>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

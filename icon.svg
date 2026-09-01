@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title description">
+  <title id="title">Basic Auth Assistant icon</title>
+  <desc id="description">A white padlock on a blue shield-shaped background.</desc>
+
+  <defs>
+    <linearGradient id="background" x1="18" y1="14" x2="110" y2="116" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5B6CFF" />
+      <stop offset="0.52" stop-color="#315CF4" />
+      <stop offset="1" stop-color="#168ED9" />
+    </linearGradient>
+    <linearGradient id="keyhole" x1="64" y1="73" x2="64" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#315CF4" />
+      <stop offset="1" stop-color="#168ED9" />
+    </linearGradient>
+    <filter id="shadow" x="14" y="18" width="100" height="104" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#14275D" flood-opacity="0.24" />
+    </filter>
+  </defs>
+
+  <rect x="8" y="8" width="112" height="112" rx="29" fill="url(#background)" />
+
+  <path
+    d="M25 41.5 64 23l39 18.5v25.8c0 22.2-15.7 39-39 47.7-23.3-8.7-39-25.5-39-47.7V41.5Z"
+    fill="#FFFFFF"
+    fill-opacity="0.1"
+    stroke="#FFFFFF"
+    stroke-opacity="0.25"
+    stroke-width="2"
+  />
+
+  <g filter="url(#shadow)">
+    <path
+      d="M43 61V52c0-12.2 9.4-22 21-22s21 9.8 21 22v9"
+      fill="none"
+      stroke="#FFFFFF"
+      stroke-width="10"
+      stroke-linecap="round"
+    />
+    <rect x="31" y="56" width="66" height="51" rx="14" fill="#FFFFFF" />
+    <path
+      d="M70.5 79.5a6.5 6.5 0 1 0-10 5.5v9a3.5 3.5 0 0 0 7 0v-9a6.5 6.5 0 0 0 3-5.5Z"
+      fill="url(#keyhole)"
+    />
+  </g>
+
+  <circle cx="27" cy="28" r="4" fill="#FFFFFF" fill-opacity="0.9" />
+  <circle cx="101" cy="28" r="4" fill="#FFFFFF" fill-opacity="0.65" />
+</svg>
