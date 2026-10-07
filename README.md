@@ -1,6 +1,6 @@
 # Basic Auth Assistant
 
-Amplifyのfeatureブランチなど、ホスト名が環境ごとに変わるサイトのHTTP Basic認証へ自動で応答するChrome拡張機能です。URLの完全一致ではなく、JavaScript形式の正規表現で認証情報を選択します。
+Amplifyのfeatureブランチなど、ホスト名が環境ごとに変わるサイトのHTTPSサイトのHTTP Basic認証へ自動で応答するChrome拡張機能です。URLの完全一致ではなく、JavaScript形式の正規表現で認証情報を選択します。
 
 ## インストール
 
@@ -34,11 +34,15 @@ Amplify App向けの正規表現例:
 
 - 認証情報は `chrome.storage.local` に保存され、Chrome同期の対象にはなりません。
 - 保存値を拡張機能独自には暗号化していません。このChromeプロファイルとOSアカウントへアクセスできる相手から秘密を守る設計ではありません。
-- HTTP通信ではBasic認証情報を安全に保護できないため、対象はHTTPSに限定することを推奨します。
-- 拡張機能は正規表現で任意のHTTP/HTTPS URLへ対応するため、全HTTP/HTTPSサイトへのホスト権限を要求します。
+- HTTP通信ではBasic認証情報を安全に保護できないため、本拡張機能はHTTPSのみに対応します。HTTPサイトでは動作しません。
+- 拡張機能は正規表現で任意のHTTPS URLへ対応するため、全HTTPSサイトへのホスト権限を要求します。
 - プロキシ認証には応答しません。サーバーのHTTP Basic認証だけが対象です。
 - IDが空のルールは適用されません。
 
 ## 仕組み
 
 Manifest V3の `chrome.webRequest.onAuthRequired` を利用し、401認証チャレンジを受けたURLに一致するルールがあれば認証情報を返します。認証情報が誤っていた場合の無限再試行を避けるため、同一リクエストには一度だけ応答します。
+
+## ストア提出
+
+`npm run package` でテストを実行し、必要な実行ファイルだけを含む `dist/basic-auth-assistant-1.0.0.zip` を生成します。掲載文・権限の理由・申告事項・提出前チェックは [store/SUBMISSION.md](store/SUBMISSION.md) にまとめています。GitHub公開用のプライバシーポリシーは [PRIVACY.md](PRIVACY.md)、拡張機能内の表示用は `privacy.html` です。公開URLと開発者の連絡先、審査用のHTTPSテストサイトは提出者が設定してください。

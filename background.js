@@ -3,6 +3,8 @@ import { findMatchingRule, RULES_STORAGE_KEY } from "./core.js";
 // A failed credential can trigger onAuthRequired repeatedly for the same request.
 // Remember answered requests so Chrome can fall back to its normal login dialog.
 const answeredRequests = new Set();
+const storageReady = chrome.storage.local.setAccessLevel({ accessLevel: "TRUSTED_CONTEXTS" });
+storageReady.catch(() => {});
 
 chrome.webRequest.onAuthRequired.addListener(
   (details, callback) => {
@@ -15,11 +17,12 @@ chrome.webRequest.onAuthRequired.addListener(
       return;
     }
 
-    chrome.storage.local
+    storageReady.then(() => chrome.storage.local
       .get({ [RULES_STORAGE_KEY]: [] })
+    )
       .then((stored) => {
         const rule = findMatchingRule(stored[RULES_STORAGE_KEY], details.url);
-        if (!rule || !rule.username) {
+        if (!rule || answeredRequests.has(details.requestId)) {
           callback({});
           return;
         }
@@ -34,7 +37,7 @@ chrome.webRequest.onAuthRequired.addListener(
       })
       .catch(() => callback({}));
   },
-  { urls: ["http://*/*", "https://*/*"] },
+  { urls: ["https://*/*"] },
   ["asyncBlocking"],
 );
 
@@ -43,9 +46,9 @@ function forgetRequest(details) {
 }
 
 chrome.webRequest.onCompleted.addListener(forgetRequest, {
-  urls: ["http://*/*", "https://*/*"],
+  urls: ["https://*/*"],
 });
 
 chrome.webRequest.onErrorOccurred.addListener(forgetRequest, {
-  urls: ["http://*/*", "https://*/*"],
+  urls: ["https://*/*"],
 });

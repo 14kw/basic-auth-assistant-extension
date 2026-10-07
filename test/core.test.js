@@ -66,3 +66,14 @@ test("filters rules by name, pattern, or username", () => {
   assert.deepEqual(filterRules(rules, "secret-b"), []);
   assert.equal(filterRules(rules, "  "), rules);
 });
+
+test("never sends credentials over HTTP or other schemes", () => {
+  for (const url of ["http://example.com/", "ftp://example.com/", null]) {
+    assert.equal(findMatchingRule([{pattern: ".*", username: "alice"}], url), null);
+  }
+});
+
+test("handles damaged storage and skips incomplete rules", () => {
+  assert.equal(findMatchingRule({}, "https://example.com/"), null);
+  assert.equal(findMatchingRule([null, 42, {pattern: ".*"}, {pattern: ".*", username: "alice"}], "https://example.com/").username, "alice");
+});

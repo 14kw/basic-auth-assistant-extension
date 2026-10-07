@@ -1,6 +1,7 @@
 export const RULES_STORAGE_KEY = "authRules";
 
 export function normalizeRule(input) {
+  input = input && typeof input === "object" ? input : {};
   return {
     id: typeof input.id === "string" && input.id ? input.id : crypto.randomUUID(),
     name: String(input.name ?? "").trim(),
@@ -25,9 +26,12 @@ export function validatePattern(pattern) {
 }
 
 export function findMatchingRule(rules, url) {
+  if (typeof url !== "string" || !url.startsWith("https://")) return null;
+  if (!Array.isArray(rules)) return null;
   for (const candidate of rules) {
+    if (!candidate || typeof candidate !== "object") continue;
     const rule = normalizeRule(candidate);
-    if (!rule.enabled || !rule.pattern) continue;
+    if (!rule.enabled || !rule.pattern || !rule.username) continue;
 
     try {
       if (new RegExp(rule.pattern).test(url)) return rule;

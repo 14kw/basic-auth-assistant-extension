@@ -21,8 +21,9 @@ function showToast(message) {
 
 function persistRules(showConfirmation = true) {
   const snapshot = structuredClone(rules);
-  saveChain = saveChain.then(() => chrome.storage.local.set({ [RULES_STORAGE_KEY]: snapshot }));
-  if (showConfirmation) saveChain.then(() => showToast("保存しました"));
+  saveChain = saveChain.then(() => chrome.storage.local.set({ [RULES_STORAGE_KEY]: snapshot }))
+    .then(() => { if (showConfirmation) showToast("保存しました"); })
+    .catch(() => showToast("保存に失敗しました。入力を変更して再試行してください。"));
   return saveChain;
 }
 
@@ -162,6 +163,12 @@ document.querySelector("#clear-search").addEventListener("click", () => {
 });
 searchInput.addEventListener("input", render);
 
-const stored = await chrome.storage.local.get({ [RULES_STORAGE_KEY]: [] });
-rules = stored[RULES_STORAGE_KEY].map(normalizeRule);
-render();
+try {
+  const stored = await chrome.storage.local.get({ [RULES_STORAGE_KEY]: [] });
+  if (!Array.isArray(stored[RULES_STORAGE_KEY])) throw new Error("Invalid rules");
+  rules = stored[RULES_STORAGE_KEY].filter((rule) => rule && typeof rule === "object").map(normalizeRule);
+  render();
+} catch {
+  document.querySelector("#add-rule").disabled = true;
+  showToast("設定を読み込めませんでした。画面を開き直してください。");
+}
