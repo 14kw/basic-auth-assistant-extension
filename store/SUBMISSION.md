@@ -2,7 +2,7 @@
 
 ## アップロードするファイル
 
-- 拡張機能: `dist/basic-auth-assistant-1.0.0.zip`（`npm run package`で再生成）
+- 拡張機能: `dist/basic-auth-assistant-1.0.1.zip`（`npm run package`で再生成）
 - アイコン: `icons/icon-128.png`
 - スクリーンショット: `store/screenshot-1280x800.png`（架空の設定データを使用）
 - 小さいプロモーション画像: `store/promo-440x280.png`

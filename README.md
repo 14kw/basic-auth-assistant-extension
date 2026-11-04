@@ -51,4 +51,4 @@ Manifest V3の `chrome.webRequest.onAuthRequired` を利用し、401認証チャ
 
 ## ストア提出
 
-`npm run package` でテストを実行し、必要な実行ファイルだけを含む `dist/basic-auth-assistant-1.0.0.zip` を生成します。掲載文・権限の理由・申告事項・提出前チェックは [store/SUBMISSION.md](store/SUBMISSION.md) にまとめています。GitHub公開用のプライバシーポリシーは [PRIVACY.md](PRIVACY.md)、拡張機能内の表示用は `privacy.html` です。公開URLと開発者の連絡先、審査用のHTTPSテストサイトは提出者が設定してください。
+`npm run package` でテストを実行し、必要な実行ファイルだけを含む `dist/basic-auth-assistant-1.0.1.zip` を生成します。掲載文・権限の理由・申告事項・提出前チェックは [store/SUBMISSION.md](store/SUBMISSION.md) にまとめています。GitHub公開用のプライバシーポリシーは [PRIVACY.md](PRIVACY.md)、拡張機能内の表示用は `privacy.html` です。公開URLと開発者の連絡先、審査用のHTTPSテストサイトは提出者が設定してください。
