@@ -17,17 +17,8 @@
         <button id="add-rule" class="primary" type="button">ルールを追加</button>
       </header>
 
-      <section class="settings-transfer" aria-label="設定のバックアップ">
-        <div class="transfer-actions">
-          <button id="export-settings" type="button" disabled>設定をエクスポート</button>
-          <button id="import-settings" type="button" disabled>設定をインポート</button>
-          <input id="import-file" type="file" accept=".json,application/json" hidden />
-        </div>
-        <p class="lead">JSONにはID・パスワードが平文で含まれます。安全な場所に保管してください。インポートは現在の全ルールを置き換えます。</p>
-        <p id="transfer-status" class="lead" role="status" aria-live="polite"></p>
-      </section>
-
       <section class="search-bar" aria-label="ルール検索">
+        <div class="search-tools">
         <label class="search-label" for="rule-search">ルールを検索</label>
         <div class="search-field">
           <span class="search-icon" aria-hidden="true"></span>
@@ -39,6 +30,17 @@
           />
           <span id="result-count" class="result-count" aria-live="polite"></span>
         </div>
+        <div class="transfer-actions" role="group" aria-label="設定のバックアップ">
+          <button id="export-settings" class="icon-button" type="button" title="設定をエクスポート（パスワードを含むJSON）" aria-label="設定をエクスポート（パスワードを含むJSON）" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4" /></svg>
+          </button>
+          <button id="import-settings" class="icon-button" type="button" title="設定をインポート（全ルールを置き換え）" aria-label="設定をインポート（全ルールを置き換え）" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3m-4 4 4-4 4 4M4 16v4h16v-4" /></svg>
+          </button>
+          <input id="import-file" type="file" accept=".json,application/json" hidden />
+        </div>
+        </div>
+        <p id="transfer-status" class="lead" role="status" aria-live="polite"></p>
       </section>
 
       <section id="empty-state" class="empty" hidden>
@@ -56,6 +58,7 @@
       <p class="security-note">
         認証情報はこのChromeプロファイルの拡張機能用ローカルストレージに保存され、同期されません。
         独自の暗号化は行いません。認証先以外への送信・分析は行いません。
+        エクスポートしたJSONにはID・パスワードが平文で含まれます。安全に保管してください。インポートは全ルールを置き換えます。
         <a href="privacy.html" target="_blank" rel="noopener">プライバシーポリシー</a>
       </p>
     </main>
