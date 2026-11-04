@@ -30,6 +30,12 @@ Amplify App向けの正規表現例:
 
 上にあるルールほど優先されます。現在のバージョンでは並べ替えUIはないため、重複しない正規表現を推奨します。
 
+### 設定のエクスポート・インポート
+
+「設定をエクスポート」で全ルールをJSONファイルとして保存できます。ルールの順序、有効／無効、IDとパスワードも含まれます。**パスワードは平文なので、安全な場所に保管し、他人に共有しないでください。**
+
+「設定をインポート」で、この拡張機能から出力したJSONファイル（5MB以下）を選択してください。件数の確認後、現在の全ルールを置き換えます。必要なら先にエクスポートしてバックアップしてください。キャンセルや不正なファイル、保存失敗の場合は既存設定を変更しません。
+
 ## セキュリティ上の注意
 
 - 認証情報は `chrome.storage.local` に保存され、Chrome同期の対象にはなりません。
@@ -45,4 +51,4 @@ Manifest V3の `chrome.webRequest.onAuthRequired` を利用し、401認証チャ
 
 ## ストア提出
 
-`npm run package` でテストを実行し、必要な実行ファイルだけを含む `dist/basic-auth-assistant-1.0.0.zip` を生成します。掲載文・権限の理由・申告事項・提出前チェックは [store/SUBMISSION.md](store/SUBMISSION.md) にまとめています。GitHub公開用のプライバシーポリシーは [PRIVACY.md](PRIVACY.md)、拡張機能内の表示用は `privacy.html` です。公開URLと開発者の連絡先、審査用のHTTPSテストサイトは提出者が設定してください。
+`npm run package` でテストを実行し、必要な実行ファイルだけを含む `dist/basic-auth-assistant-1.0.1.zip` を生成します。掲載文・権限の理由・申告事項・提出前チェックは [store/SUBMISSION.md](store/SUBMISSION.md) にまとめています。GitHub公開用のプライバシーポリシーは [PRIVACY.md](PRIVACY.md)、拡張機能内の表示用は `privacy.html` です。公開URLと開発者の連絡先、審査用のHTTPSテストサイトは提出者が設定してください。

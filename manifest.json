@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Basic Auth Assistant",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "URL正規表現に一致するサイトのBasic認証へ、保存済みの認証情報を自動適用します。",
   "minimum_chrome_version": "102",
   "icons": {

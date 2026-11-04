@@ -2,7 +2,7 @@
 
 ## アップロードするファイル
 
-- 拡張機能: `dist/basic-auth-assistant-1.0.0.zip`（`npm run package`で再生成）
+- 拡張機能: `dist/basic-auth-assistant-1.0.1.zip`（`npm run package`で再生成）
 - アイコン: `icons/icon-128.png`
 - スクリーンショット: `store/screenshot-1280x800.png`（架空の設定データを使用）
 - 小さいプロモーション画像: `store/promo-440x280.png`
@@ -23,6 +23,7 @@ Basic Auth Assistantは、開発・検証環境のHTTP Basic認証への入力�
 ・ルール名、URL正規表現、IDによる検索
 ・ドメイン、サブドメイン、Amplify Appの正規表現サンプル
 ・パスワードの表示・非表示切り替え
+・設定のJSONエクスポート・インポート（ID・パスワードは平文、インポートは全ルールの置き換え）
 
 使い方
 1. 拡張機能のアイコンを開き「ルールを追加」を押します。
