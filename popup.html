@@ -17,6 +17,16 @@
         <button id="add-rule" class="primary" type="button">ルールを追加</button>
       </header>
 
+      <section class="settings-transfer" aria-label="設定のバックアップ">
+        <div class="transfer-actions">
+          <button id="export-settings" type="button" disabled>設定をエクスポート</button>
+          <button id="import-settings" type="button" disabled>設定をインポート</button>
+          <input id="import-file" type="file" accept=".json,application/json" hidden />
+        </div>
+        <p class="lead">JSONにはID・パスワードが平文で含まれます。安全な場所に保管してください。インポートは現在の全ルールを置き換えます。</p>
+        <p id="transfer-status" class="lead" role="status" aria-live="polite"></p>
+      </section>
+
       <section class="search-bar" aria-label="ルール検索">
         <label class="search-label" for="rule-search">ルールを検索</label>
         <div class="search-field">

@@ -11,6 +11,16 @@ try {
   mkdirSync(join(root, 'dist'), { recursive: true });
   for (const file of files) cpSync(join(root, file), join(stage, file), { recursive: true });
   rmSync(output, { force: true });
-  execFileSync('zip', ['-q', '-r', output, ...files], { cwd: stage });
+  if (process.platform === 'win32') {
+    const quote = (value) => `'${value.replaceAll("'", "''")}'`;
+    execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command',
+      `$ErrorActionPreference = 'Stop'; Add-Type -AssemblyName System.IO.Compression.FileSystem; ` +
+      `$stagePath = ${quote(stage)}; $archive = [System.IO.Compression.ZipFile]::Open(${quote(output)}, 'Create'); ` +
+      `try { foreach ($filePath in [System.IO.Directory]::GetFiles($stagePath, '*', [System.IO.SearchOption]::AllDirectories)) { ` +
+      `$entryName = $filePath.Substring($stagePath.Length + 1).Replace([char]92, [char]47); ` +
+      `[void][System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($archive, $filePath, $entryName) } } finally { $archive.Dispose() }`], { cwd: stage });
+  } else {
+    execFileSync('zip', ['-q', '-r', output, ...files], { cwd: stage });
+  }
   console.log(output);
 } finally { rmSync(stage, { recursive: true, force: true }); }

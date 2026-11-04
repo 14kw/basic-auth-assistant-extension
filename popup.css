@@ -68,6 +68,10 @@ button.primary:hover { background: #244bd3; }
 
 .search-bar { margin-bottom: 14px; }
 
+.settings-transfer { margin-bottom: 16px; }
+.transfer-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+button:disabled { opacity: 0.5; cursor: default; }
+
 .search-label {
   position: absolute;
   width: 1px;

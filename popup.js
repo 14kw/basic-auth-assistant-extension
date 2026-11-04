@@ -1,4 +1,4 @@
-import { filterRules, normalizeRule, RULES_STORAGE_KEY, validatePattern } from "./core.js";
+import { exportSettings, importSettings, filterRules, normalizeRule, RULES_STORAGE_KEY, validatePattern } from "./core.js";
 
 const list = document.querySelector("#rule-list");
 const emptyState = document.querySelector("#empty-state");
@@ -163,11 +163,63 @@ document.querySelector("#clear-search").addEventListener("click", () => {
 });
 searchInput.addEventListener("input", render);
 
+const exportButton = document.querySelector("#export-settings");
+const importButton = document.querySelector("#import-settings");
+const importFile = document.querySelector("#import-file");
+const transferStatus = document.querySelector("#transfer-status");
+
+exportButton.addEventListener("click", () => {
+  try {
+    const url = URL.createObjectURL(new Blob([exportSettings(rules)], { type: "application/json" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `basic-auth-assistant-settings-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 10000);
+    transferStatus.textContent = "設定ファイルをダウンロードしました。安全な場所に保管してください。";
+  } catch {
+    transferStatus.textContent = "エクスポートに失敗しました。再試行してください。";
+  }
+});
+
+importButton.addEventListener("click", () => importFile.click());
+importFile.addEventListener("change", async () => {
+  const file = importFile.files[0];
+  importFile.value = "";
+  if (!file) return;
+  const main = document.querySelector("main");
+  main.inert = true;
+  try {
+    if (file.size > 5 * 1024 * 1024) throw new Error("5MB以下の設定ファイルを選択してください。");
+    const imported = importSettings(await file.text());
+    if (!window.confirm(`現在の${rules.length}件のルールを、ファイル内の${imported.length}件で置き換えます。よろしいですか？`)) {
+      transferStatus.textContent = "インポートをキャンセルしました。";
+      return;
+    }
+    await saveChain;
+    await chrome.storage.local.set({ [RULES_STORAGE_KEY]: imported });
+    rules = imported;
+    expandedRuleIds.clear();
+    searchInput.value = "";
+    render();
+    transferStatus.textContent = `${rules.length}件のルールをインポートしました。`;
+  } catch (error) {
+    transferStatus.textContent = error instanceof Error && /設定|JSON|ルール|5MB/.test(error.message)
+      ? error.message : "インポートに失敗しました。設定は変更されませんでした。";
+  } finally {
+    main.inert = false;
+  }
+});
+
 try {
   const stored = await chrome.storage.local.get({ [RULES_STORAGE_KEY]: [] });
   if (!Array.isArray(stored[RULES_STORAGE_KEY])) throw new Error("Invalid rules");
   rules = stored[RULES_STORAGE_KEY].filter((rule) => rule && typeof rule === "object").map(normalizeRule);
   render();
+  exportButton.disabled = false;
+  importButton.disabled = false;
 } catch {
   document.querySelector("#add-rule").disabled = true;
   showToast("設定を読み込めませんでした。画面を開き直してください。");
